@@ -3,4 +3,8 @@
   <PropertyGroup>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Assecor.Api.Domain\Assecor.Api.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
