@@ -29,7 +29,7 @@ public class CsvPersonRepository(ICsvService csvService, ILogger<CsvPersonReposi
 
             if (personResult.IsFailure)
             {
-                logger.LogWarning("Failed to convert CSV row to PersonDto: {Error}", personResult.Error.Message);
+                logger.LogWarning("Failed to convert CSV row to Person: {Error}", personResult.Error.Message);
 
                 continue;
             }

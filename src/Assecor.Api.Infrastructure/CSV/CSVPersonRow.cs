@@ -11,6 +11,19 @@ public class CsvPerson
     public string? Address { get; set; }
     public int? ColorId { get; set; }
 
+    public CsvPerson? HasNullOrEmptyData()
+    {
+        if (string.IsNullOrWhiteSpace(LastName) ||
+            string.IsNullOrWhiteSpace(FirstName) ||
+            string.IsNullOrWhiteSpace(Address) ||
+            !ColorId.HasValue)
+        {
+            return this;
+        }
+
+        return null;
+    }
+
     public Result<Person, Error> ToPerson(int id)
     {
         try

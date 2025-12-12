@@ -90,12 +90,13 @@ public class CsvService : ICsvService
                     ColorId = csv.TryGetField<int>(3, out var colorId) ? colorId : null
                 };
 
+                if (record.HasNullOrEmptyData() is not null)
+                {
+                    _logger.LogWarning("Loaded CSV record from line {Line} has missing data: {@Record}", csv.Context.Parser?.Row, record);
+                }
+
                 records.Add(record);
             }
-
-            //csv.Context.RegisterClassMap<CsvPersonMap>();
-
-            //var records = csv.GetRecords<CsvPerson>().ToList();
 
             return records;
         }
