@@ -1,39 +1,59 @@
 using System.Text.Json;
 using Assecor.Api.Application;
 using Assecor.Api.Infrastructure;
+using Serilog;
 
-var builder = WebApplication.CreateBuilder(args);
+Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateBootstrapLogger();
 
-builder.Services.AddControllers()
-    .AddJsonOptions(static options =>
-        {
-            options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-        }
-    );
-
-builder.Services.AddOpenApi();
-
-builder.Services.AddMediatR(static cfg => cfg.RegisterServicesFromAssembly(Application.Assembly));
-
-builder.Services.AddInfrastructure(builder.Configuration);
-
-var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
+try
 {
-    app.MapOpenApi();
+    Log.Information("App is starting");
 
-    app.UseSwaggerUI(static options =>
-        {
-            options.SwaggerEndpoint("/openapi/v1.json", "v1");
-        }
+    var builder = WebApplication.CreateBuilder(args);
+
+    builder.Services.AddControllers()
+        .AddJsonOptions(static options =>
+            {
+                options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            }
+        );
+
+    builder.Services.AddOpenApi();
+
+    builder.Services.AddMediatR(static cfg => cfg.RegisterServicesFromAssembly(Application.Assembly));
+
+    builder.Services.AddInfrastructure(builder.Configuration);
+
+    builder.Host.UseSerilog(static (hostContext, services, configuration)
+                                => configuration.ReadFrom.Configuration(hostContext.Configuration).ReadFrom.Services(services)
     );
+
+    var app = builder.Build();
+
+    if (app.Environment.IsDevelopment())
+    {
+        app.MapOpenApi();
+
+        app.UseSwaggerUI(static options =>
+            {
+                options.SwaggerEndpoint("/openapi/v1.json", "v1");
+            }
+        );
+    }
+
+    app.UseHttpsRedirection();
+
+    app.UseAuthorization();
+
+    app.MapControllers();
+
+    app.Run();
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
+catch (Exception ex)
+{
+    Log.Fatal(ex, "App start-up failed");
+}
+finally
+{
+    Log.CloseAndFlush();
+}
