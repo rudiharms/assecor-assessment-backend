@@ -3,11 +3,11 @@
 public enum ColorName
 {
     Blau = 1,
-    Gruen = 2,
+    Grün = 2,
     Violett = 3,
     Rot = 4,
     Gelb = 5,
-    Tuerkis = 6,
-    Weiss = 7,
+    Türkis = 6,
+    Weiß = 7,
     None = 100
 }

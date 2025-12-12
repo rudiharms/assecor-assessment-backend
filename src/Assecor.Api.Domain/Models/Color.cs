@@ -7,12 +7,12 @@ namespace Assecor.Api.Domain.Models;
 public class Color
 {
     private static readonly Color _blue = new(ColorName.Blau);
-    private static readonly Color _green = new(ColorName.Gruen);
+    private static readonly Color _green = new(ColorName.Grün);
     private static readonly Color _violet = new(ColorName.Violett);
     private static readonly Color _red = new(ColorName.Rot);
     private static readonly Color _yellow = new(ColorName.Gelb);
-    private static readonly Color _turquoise = new(ColorName.Tuerkis);
-    private static readonly Color _white = new(ColorName.Weiss);
+    private static readonly Color _turquoise = new(ColorName.Türkis);
+    private static readonly Color _white = new(ColorName.Weiß);
     public static readonly Color None = new(ColorName.None);
 
     private Color(ColorName colorName)

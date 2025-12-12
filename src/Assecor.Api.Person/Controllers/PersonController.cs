@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace Assecor.Api.Person.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
-public class PersonController(ISender sender) : BaseController
+[Route("/[controller]")]
+public class PersonsController(ISender sender) : BaseController
 {
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -41,7 +41,7 @@ public class PersonController(ISender sender) : BaseController
         return Ok(result.Value);
     }
 
-    /// <param name="colorName">Color name. Valid values: Blau, Gruen, Violett, Rot, Gelb, Tuerkis, Weiss, None</param>
+    /// <param name="colorName">Color name. Valid values: Blau, Grün, Violett, Rot, Gelb, Türkis, Weiß, None</param>
     [HttpGet("color/{colorName}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
