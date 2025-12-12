@@ -1,5 +1,6 @@
 ﻿using Assecor.Api.Application.Abstractions;
 using Assecor.Api.Domain.Common;
+using Assecor.Api.Domain.Enums;
 using Assecor.Api.Domain.Models;
 using Assecor.Api.Infrastructure.Abstractions;
 using CSharpFunctionalExtensions;
@@ -59,7 +60,7 @@ public class CsvPersonRepository(ICsvService csvService, ILogger<CsvPersonReposi
         return person;
     }
 
-    public async Task<Result<IEnumerable<Person>, Error>> GetPersonsByColorAsync(string colorName)
+    public async Task<Result<IEnumerable<Person>, Error>> GetPersonsByColorAsync(ColorName colorName)
     {
         var personsResult = await GetPersonsAsync();
 
@@ -68,8 +69,7 @@ public class CsvPersonRepository(ICsvService csvService, ILogger<CsvPersonReposi
             return personsResult.Error;
         }
 
-        var filteredPersons = personsResult.Value.Where(p => string.Equals(p.Color.Name, colorName, StringComparison.OrdinalIgnoreCase))
-            .ToList();
+        var filteredPersons = personsResult.Value.Where(p => p.Color.ColorName == colorName).ToList();
 
         return filteredPersons;
     }

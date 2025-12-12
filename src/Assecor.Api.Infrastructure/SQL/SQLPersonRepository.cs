@@ -1,5 +1,6 @@
 ﻿using Assecor.Api.Application.Abstractions;
 using Assecor.Api.Domain.Common;
+using Assecor.Api.Domain.Enums;
 using Assecor.Api.Domain.Models;
 using CSharpFunctionalExtensions;
 
@@ -17,7 +18,7 @@ public class SQLPersonRepository : IPersonRepository
         throw new NotImplementedException();
     }
 
-    public Task<Result<IEnumerable<Person>, Error>> GetPersonsByColorAsync(string colorName)
+    public Task<Result<IEnumerable<Person>, Error>> GetPersonsByColorAsync(ColorName colorName)
     {
         throw new NotImplementedException();
     }
