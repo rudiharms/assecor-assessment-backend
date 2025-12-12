@@ -1,5 +1,4 @@
 ﻿using Assecor.Api.Application.Abstractions;
-using Assecor.Api.Application.DTOs;
 using Assecor.Api.Domain.Common;
 using Assecor.Api.Domain.Models;
 using Assecor.Api.Infrastructure.Abstractions;
@@ -10,7 +9,7 @@ namespace Assecor.Api.Infrastructure.CSV;
 
 public class CsvPersonRepository(ICsvService csvService, ILogger<CsvPersonRepository> logger) : IPersonRepository
 {
-    public async Task<Result<IEnumerable<PersonDto>, Error>> GetPersonsAsync()
+    public async Task<Result<IEnumerable<Person>, Error>> GetPersonsAsync()
     {
         var csvDataResult = await csvService.GetDataAsync();
 
@@ -19,13 +18,13 @@ public class CsvPersonRepository(ICsvService csvService, ILogger<CsvPersonReposi
             return csvDataResult.Error;
         }
 
-        var persons = new List<PersonDto>();
+        var persons = new List<Person>();
 
         var personId = 1;
 
         foreach (var row in csvDataResult.Value)
         {
-            var personResult = row.ToPersonDto(personId);
+            var personResult = row.ToPerson(personId);
 
             if (personResult.IsFailure)
             {
@@ -41,7 +40,7 @@ public class CsvPersonRepository(ICsvService csvService, ILogger<CsvPersonReposi
         return persons;
     }
 
-    public async Task<Result<PersonDto, Error>> GetPersonByIdAsync(int id)
+    public async Task<Result<Person, Error>> GetPersonByIdAsync(int id)
     {
         var personsResult = await GetPersonsAsync();
 
@@ -50,46 +49,42 @@ public class CsvPersonRepository(ICsvService csvService, ILogger<CsvPersonReposi
             return personsResult.Error;
         }
 
-        var person = personsResult.Value.Skip(id - 1).FirstOrDefault();
+        var person = personsResult.Value.FirstOrDefault(person => person.Id == id);
 
-        if (person == null)
+        if (person is null)
         {
-            return Result.Failure<PersonDto, Error>(new Error("PersonNotFound", $"Person with ID {id} not found."));
+            return Errors.PersonNotFound($"Person with ID {id} not found.");
         }
 
-        return Result.Success<PersonDto, Error>(person);
+        return person;
     }
 
-    public async Task<Result<IEnumerable<PersonDto>, Error>> GetPersonsByColorAsync(string color)
+    public async Task<Result<IEnumerable<Person>, Error>> GetPersonsByColorAsync(string colorName)
     {
         var personsResult = await GetPersonsAsync();
 
         if (personsResult.IsFailure)
         {
-            return Result.Failure<IEnumerable<PersonDto>, Error>(personsResult.Error);
+            return personsResult.Error;
         }
 
-        var filteredPersons = personsResult.Value.Where(p => p.Color?.Id.ToString() == color ||
-                                                             string.Equals(
-                                                                 GetColorNameById(p.Color?.Id),
-                                                                 color,
-                                                                 StringComparison.OrdinalIgnoreCase
-                                                             )
-            )
+        var filteredPersons = personsResult.Value.Where(p => string.Equals(p.Color.Name, colorName, StringComparison.OrdinalIgnoreCase))
             .ToList();
 
-        return Result.Success<IEnumerable<PersonDto>, Error>(filteredPersons);
+        return filteredPersons;
     }
 
-    private string? GetColorNameById(int? colorId)
+    public async Task<Result<IEnumerable<Person>, Error>> GetPersonsByColorAsync(int colorId)
     {
-        if (!colorId.HasValue)
+        var personsResult = await GetPersonsAsync();
+
+        if (personsResult.IsFailure)
         {
-            return null;
+            return personsResult.Error;
         }
 
-        var colorResult = Color.GetById(colorId.Value);
+        var filteredPersons = personsResult.Value.Where(p => p.Color.Id == colorId).ToList();
 
-        return colorResult.IsSuccess ? colorResult.Value.Name : null;
+        return filteredPersons;
     }
 }

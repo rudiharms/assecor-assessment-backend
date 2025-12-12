@@ -6,5 +6,5 @@ namespace Assecor.Api.Infrastructure.Abstractions;
 
 public interface ICsvService
 {
-    Task<Result<IEnumerable<CsvPersonRow>, Error>> GetDataAsync();
+    Task<Result<IEnumerable<CsvPerson>, Error>> GetDataAsync();
 }

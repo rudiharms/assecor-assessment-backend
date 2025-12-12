@@ -1,27 +1,38 @@
-using Assecor.Api.Application.DTOs;
 using Assecor.Api.Domain.Common;
+using Assecor.Api.Domain.Models;
 using CSharpFunctionalExtensions;
 
 namespace Assecor.Api.Infrastructure.CSV;
 
-public class CsvPersonRow
+public class CsvPerson
 {
     public string? LastName { get; set; }
     public string? FirstName { get; set; }
     public string? Address { get; set; }
     public int? ColorId { get; set; }
 
-    public Result<PersonDto, Error> ToPersonDto()
+    public Result<Person, Error> ToPerson(int id)
     {
         try
         {
             var firstName = FirstName?.Trim() ?? string.Empty;
             var lastName = LastName?.Trim() ?? string.Empty;
 
-            var addressDto = ParseAddress(Address);
-            var colorDto = new ColorDto(ColorId);
+            var addressResult = ParseAddress(Address);
 
-            return new PersonDto(firstName, lastName, addressDto, colorDto);
+            if (addressResult.IsFailure)
+            {
+                return addressResult.Error;
+            }
+
+            var colorResult = ColorId.HasValue ? Color.GetById(ColorId.Value) : Color.None;
+
+            if (colorResult.IsFailure)
+            {
+                return colorResult.Error;
+            }
+
+            return new Person(id, firstName, lastName, addressResult.Value, colorResult.Value);
         }
         catch (Exception e)
         {
@@ -29,15 +40,15 @@ public class CsvPersonRow
         }
     }
 
-    private static AddressDto ParseAddress(string? address)
+    private static Result<Address, Error> ParseAddress(string? address)
     {
         var parts = address?.Split(' ', 2, StringSplitOptions.TrimEntries);
 
         return parts?.Length switch
         {
-            1 => new AddressDto(parts[0], null),
-            >= 2 => new AddressDto(parts[0], parts[1]),
-            _ => new AddressDto(null, null)
+            1 => Domain.Models.Address.Create(parts[0], string.Empty),
+            >= 2 => Domain.Models.Address.Create(parts[0], parts[1]),
+            _ => Errors.AddressIsMissing
         };
     }
 }

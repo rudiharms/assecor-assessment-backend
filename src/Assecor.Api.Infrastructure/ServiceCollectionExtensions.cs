@@ -1,3 +1,4 @@
+using System.IO.Abstractions;
 using Assecor.Api.Application.Abstractions;
 using Assecor.Api.Infrastructure.Abstractions;
 using Assecor.Api.Infrastructure.CSV;
@@ -15,6 +16,8 @@ public static class ServiceCollectionExtensions
 
         services.AddSingleton<ICsvService, CsvService>();
         services.AddScoped<IPersonRepository, CsvPersonRepository>();
+
+        services.AddSingleton<IFileSystem, FileSystem>();
 
         return services;
     }

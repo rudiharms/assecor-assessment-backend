@@ -4,9 +4,16 @@ public record Error(string Code, string Message);
 
 public static class Errors
 {
-    public static readonly Error InvalidAddressZipCode = new(Codes.InvalidAddressZipCode, "The address zip code is invalid.");
-    public static readonly Error InvalidAddressCity = new(Codes.InvalidAddressCity, "The address city is invalid.");
-    public static readonly Error InvalidColor = new(Codes.InvalidColor, "The color is invalid.");
+    public static readonly Error InvalidAddressZipCode = new(Codes.InvalidAddressZipCode, "The address zip code is invalid");
+    public static readonly Error InvalidAddressCity = new(Codes.InvalidAddressCity, "The address city is invalid");
+    public static readonly Error AddressIsMissing = new(Codes.AddressIsMissing, "The address  is missing");
+    public static readonly Error InvalidColor = new(Codes.InvalidColor, "The color is invalid");
+    public static readonly Error ColorIsMissing = new(Codes.ColorIsMissing, "The color is missing");
+
+    public static Error PersonNotFound(string message)
+    {
+        return new Error(Codes.PersonNotFound, $"Person could not be found: {message}");
+    }
 
     public static Error FileNotFound(string filePath)
     {
@@ -32,4 +39,7 @@ public static class Codes
     public const string FileNotFound = nameof(FileNotFound);
     public const string CsvLoadingFailed = nameof(CsvLoadingFailed);
     public const string CsvParsingFailed = nameof(CsvParsingFailed);
+    public const string AddressIsMissing = nameof(AddressIsMissing);
+    public const string ColorIsMissing = nameof(ColorIsMissing);
+    public const string PersonNotFound = nameof(PersonNotFound);
 }

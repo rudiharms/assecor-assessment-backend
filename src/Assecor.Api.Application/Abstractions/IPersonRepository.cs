@@ -1,12 +1,13 @@
-﻿using Assecor.Api.Application.DTOs;
-using Assecor.Api.Domain.Common;
+﻿using Assecor.Api.Domain.Common;
+using Assecor.Api.Domain.Models;
 using CSharpFunctionalExtensions;
 
 namespace Assecor.Api.Application.Abstractions;
 
 public interface IPersonRepository
 {
-    Task<Result<IEnumerable<PersonDto>, Error>> GetPersonsAsync();
-    Task<Result<PersonDto, Error>> GetPersonByIdAsync(int id);
-    Task<Result<IEnumerable<PersonDto>, Error>> GetPersonsByColorAsync(string color);
+    Task<Result<IEnumerable<Person>, Error>> GetPersonsAsync();
+    Task<Result<Person, Error>> GetPersonByIdAsync(int id);
+    Task<Result<IEnumerable<Person>, Error>> GetPersonsByColorAsync(string colorName);
+    Task<Result<IEnumerable<Person>, Error>> GetPersonsByColorAsync(int colorId);
 }

@@ -12,6 +12,7 @@ public class Color
     private static readonly Color _yellow = new(5, "gelb");
     private static readonly Color _turquoise = new(6, "türkis");
     private static readonly Color _white = new(7, "weiß");
+    public static readonly Color None = new(100, "keins");
 
     private Color(int id, string name)
     {
@@ -19,7 +20,7 @@ public class Color
         Name = name;
     }
 
-    private static IReadOnlyList<Color> All { get; } = new[] { _blue, _green, _violet, _red, _yellow, _turquoise, _white };
+    private static IReadOnlyList<Color> All { get; } = new[] { _blue, _green, _violet, _red, _yellow, _turquoise, _white, None };
 
     public int Id { get; }
     public string Name { get; }

@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.IO.Abstractions;
 using Assecor.Api.Domain.Common;
 using Assecor.Api.Infrastructure.Abstractions;
 using Assecor.Api.Infrastructure.Options;
@@ -20,27 +21,29 @@ public class CsvService : ICsvService
 {
     private readonly string _delimiter;
     private readonly string _filePath;
-    private readonly Lazy<Result<IEnumerable<CsvPersonRow>, Error>> _lazyData;
+    private readonly IFileSystem _fileSystem;
+    private readonly Lazy<Result<IEnumerable<CsvPerson>, Error>> _lazyData;
     private readonly ILogger<CsvService> _logger;
 
-    public CsvService(IOptionsMonitor<CsvOptions> options, ILogger<CsvService> logger)
+    public CsvService(IOptionsMonitor<CsvOptions> options, IFileSystem fileSystem, ILogger<CsvService> logger)
     {
         _filePath = options.CurrentValue.FilePath;
         _delimiter = options.CurrentValue.Delimiter;
+        _fileSystem = fileSystem;
         _logger = logger;
-        _lazyData = new Lazy<Result<IEnumerable<CsvPersonRow>, Error>>(LoadData);
+        _lazyData = new Lazy<Result<IEnumerable<CsvPerson>, Error>>(LoadData);
     }
 
-    public Task<Result<IEnumerable<CsvPersonRow>, Error>> GetDataAsync()
+    public Task<Result<IEnumerable<CsvPerson>, Error>> GetDataAsync()
     {
         return Task.FromResult(_lazyData.Value);
     }
 
-    private Result<IEnumerable<CsvPersonRow>, Error> LoadData()
+    private Result<IEnumerable<CsvPerson>, Error> LoadData()
     {
         try
         {
-            if (!File.Exists(_filePath))
+            if (!_fileSystem.File.Exists(_filePath))
             {
                 return Errors.FileNotFound(_filePath);
             }
@@ -65,14 +68,21 @@ public class CsvService : ICsvService
                 Delimiter = _delimiter
             };
 
-            using var reader = new StreamReader(_filePath);
+            using var stream = _fileSystem.File.OpenRead(_filePath);
+
+            if (!stream.CanRead || stream.Length == 0)
+            {
+                return Errors.CsvLoadingFailed("File is not readable or empty");
+            }
+
+            using var reader = new StreamReader(stream);
             using var csv = new CsvReader(reader, config);
 
-            var records = new List<CsvPersonRow>();
+            var records = new List<CsvPerson>();
 
             while (csv.Read())
             {
-                var record = new CsvPersonRow
+                var record = new CsvPerson
                 {
                     LastName = csv.TryGetField<string>(0, out var lastName) ? lastName : string.Empty,
                     FirstName = csv.TryGetField<string>(1, out var firstName) ? firstName : string.Empty,
@@ -82,6 +92,10 @@ public class CsvService : ICsvService
 
                 records.Add(record);
             }
+
+            //csv.Context.RegisterClassMap<CsvPersonMap>();
+
+            //var records = csv.GetRecords<CsvPerson>().ToList();
 
             return records;
         }
