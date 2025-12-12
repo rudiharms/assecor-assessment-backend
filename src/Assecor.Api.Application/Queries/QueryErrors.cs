@@ -1,6 +1,7 @@
-﻿using Assecor.Api.Domain.Enums;
+﻿using Assecor.Api.Domain.Common;
+using Assecor.Api.Domain.Enums;
 
-namespace Assecor.Api.Domain.Common;
+namespace Assecor.Api.Application.Queries;
 
 public static class QueryErrors
 {

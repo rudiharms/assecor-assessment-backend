@@ -1,5 +1,5 @@
 ﻿using Assecor.Api.Domain.Common;
-using Assecor.Api.Infrastructure.CSV;
+using Assecor.Api.Infrastructure.Csv;
 using CSharpFunctionalExtensions;
 
 namespace Assecor.Api.Infrastructure.Abstractions;

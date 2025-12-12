@@ -6,7 +6,7 @@ using Assecor.Api.Infrastructure.Abstractions;
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
 
-namespace Assecor.Api.Infrastructure.CSV;
+namespace Assecor.Api.Infrastructure.Csv;
 
 public class CsvPersonRepository(ICsvService csvService, ILogger<CsvPersonRepository> logger) : IPersonRepository
 {

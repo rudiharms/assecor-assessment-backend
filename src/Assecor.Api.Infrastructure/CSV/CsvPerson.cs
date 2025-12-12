@@ -2,7 +2,7 @@ using Assecor.Api.Domain.Common;
 using Assecor.Api.Domain.Models;
 using CSharpFunctionalExtensions;
 
-namespace Assecor.Api.Infrastructure.CSV;
+namespace Assecor.Api.Infrastructure.Csv;
 
 public class CsvPerson
 {

@@ -9,7 +9,7 @@ using CsvHelper.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Assecor.Api.Infrastructure.CSV;
+namespace Assecor.Api.Infrastructure.Csv;
 
 /// <summary>
 ///     For the time being we accept the fact that the csv won't be changed during run-time, so we load it once and cache

@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Assecor.Api.Application;
 using Assecor.Api.Infrastructure;
+using Assecor.Api.Person.Filter;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateBootstrapLogger();
@@ -11,8 +12,15 @@ try
 
     var builder = WebApplication.CreateBuilder(args);
 
-    builder.Services.AddControllers()
+    builder.Services.AddScoped<ProblemDetailsLoggingFilter>();
+
+    builder.Services.AddControllers(static options =>
+            {
+                options.Filters.AddService<ProblemDetailsLoggingFilter>();
+            }
+        )
         .AddJsonOptions(static options =>
+
             {
                 options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
             }

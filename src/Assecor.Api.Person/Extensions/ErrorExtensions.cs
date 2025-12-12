@@ -1,4 +1,5 @@
-﻿using Assecor.Api.Domain.Common;
+﻿using Assecor.Api.Application.Queries;
+using Assecor.Api.Domain.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Assecor.Api.Person.Extensions;
