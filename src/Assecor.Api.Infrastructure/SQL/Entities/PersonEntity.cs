@@ -7,10 +7,10 @@ namespace Assecor.Api.Infrastructure.Sql.Entities;
 
 public class PersonEntity
 {
-    public const int MaxFirstNameLength = 200;
-    public const int MaxLastNameLength = 200;
-    public const int MaxZipCodeLength = 20;
-    public const int MaxCityLength = 200;
+    private const int MaxFirstNameLength = 200;
+    private const int MaxLastNameLength = 200;
+    private const int MaxZipCodeLength = 20;
+    private const int MaxCityLength = 200;
 
 #pragma warning disable CS8618 // Default constructor as required by EF Core
     private PersonEntity() { }

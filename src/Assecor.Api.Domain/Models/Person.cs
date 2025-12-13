@@ -5,6 +5,9 @@ namespace Assecor.Api.Domain.Models;
 
 public class Person
 {
+    private const int MaxFirstNameLength = 200;
+    private const int MaxLastNameLength = 200;
+
     private Person(int id, string firstName, string lastName, Address address, Color color)
     {
         Id = id;
@@ -24,6 +27,16 @@ public class Person
     {
         firstName = firstName.Trim();
         lastName = lastName.Trim();
+
+        if (firstName.Length > MaxFirstNameLength)
+        {
+            return Errors.PersonValidationFailed(nameof(FirstName), MaxFirstNameLength);
+        }
+
+        if (lastName.Length > MaxLastNameLength)
+        {
+            return Errors.PersonValidationFailed(nameof(LastName), MaxLastNameLength);
+        }
 
         var person = new Person(id, firstName, lastName, address, color);
 

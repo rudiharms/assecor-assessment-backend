@@ -29,7 +29,7 @@ public static class Errors
 
     public static Error SqlPersonParsingFailed(string message)
     {
-        return new Error(Codes.SqlPersonParsingFailed, $"SQL person parsing failed with message: {message}");
+        return new Error(Codes.SqlPersonParsingFailedCode, $"SQL person parsing failed with message: {message}");
     }
 
     public static Error PersonEntityParsingFailed(string message)
@@ -44,7 +44,15 @@ public static class Errors
 
     public static Error PersonEntityValidationFailed(string fieldName, int maxLength)
     {
-        return new Error(Codes.PersonEntityValidationFailedCode, $"Person entity validation failed: {fieldName} exceeds maximum length of {maxLength}");
+        return new Error(
+            Codes.PersonEntityValidationFailedCode,
+            $"Person entity validation failed: {fieldName} exceeds maximum length of {maxLength}"
+        );
+    }
+
+    public static Error PersonValidationFailed(string fieldName, int maxLength)
+    {
+        return new Error(Codes.PersonValidationFailedCode, $"Person validation failed: {fieldName} exceeds maximum length of {maxLength}");
     }
 
     public static class Codes
@@ -60,6 +68,7 @@ public static class Errors
         public const string PersonDtoFailedCode = nameof(PersonDtoFailedCode);
         public const string PersonEntityParsingFailedCode = nameof(PersonEntityParsingFailedCode);
         public const string PersonEntityValidationFailedCode = nameof(PersonEntityValidationFailedCode);
-        public const string SqlPersonParsingFailed = nameof(SqlPersonParsingFailed);
+        public const string PersonValidationFailedCode = nameof(PersonValidationFailedCode);
+        public const string SqlPersonParsingFailedCode = nameof(SqlPersonParsingFailedCode);
     }
 }
