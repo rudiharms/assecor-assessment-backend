@@ -1,6 +1,21 @@
 @Assecor.Api.Person_HostAddress = http://localhost:5277
 
-GET {{Assecor.Api.Person_HostAddress}}/weatherforecast/
+### Get all persons
+GET {{Assecor.Api.Person_HostAddress}}/persons
 Accept: application/json
 
 ###
+
+### Get person by ID
+GET {{Assecor.Api.Person_HostAddress}}/persons/1
+Accept: application/json
+
+###
+
+### Get persons by color
+GET {{Assecor.Api.Person_HostAddress}}/persons/color/blau
+Accept: application/json
+
+###
+
+

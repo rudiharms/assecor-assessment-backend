@@ -1,10 +1,9 @@
 # Overview
 
 ## General description
-This API acts as a gateway for our mobile applications
+This is a Restful API
 
 ## Other pages
-- [README](../README.md)
 - [Requirements](Requirements.md)
 - [Architecture](Architecture.md)
 - [How To Run](HowToRun.md)
