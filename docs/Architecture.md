@@ -13,7 +13,7 @@ Clean Architecture
 
 MVC pattern
 
-Strucutred logging
+Structured logging
 
 Dependency Injection
 
@@ -36,14 +36,14 @@ Idempotency
 ## Backlog(TODO)
 Authorization and authentication
 
-Deployment pipeline
+Deployment pipeline to something like azure wiuth yaml file
 
 More logging including metrics
 
-Cleaner normalized Relational Data Setup
+Cleaner normalized Relational Sql Data Tables
 
 Avoid firstname lastname duplication in database and csv during creation
 
-Integration tests with test containers
+Integration tests for EF Core with test containers
 
 

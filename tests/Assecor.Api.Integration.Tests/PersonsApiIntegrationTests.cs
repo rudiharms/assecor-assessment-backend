@@ -7,6 +7,8 @@ using FluentAssertions.Execution;
 
 namespace Assecor.Api.Integration.Tests;
 
+//Note to reviewer, only works on csv data source for now.
+//Did not get around to also implement for sql data source via testcontainers in time.
 [Collection(nameof(TestCollection))]
 public class PersonsApiIntegrationTests : IAsyncLifetime
 {
