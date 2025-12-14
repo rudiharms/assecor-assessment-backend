@@ -1,5 +1,4 @@
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
-USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
@@ -32,4 +31,8 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 COPY --from=build /src/src/Assecor.Api.Infrastructure/Csv ../Assecor.Api.Infrastructure/Csv
 COPY --from=build /src/src/Assecor.Api.Infrastructure/Sql ../Assecor.Api.Infrastructure/Sql
+
+RUN chown -R $APP_UID:$APP_UID ../Assecor.Api.Infrastructure/Csv ../Assecor.Api.Infrastructure/Sql
+
+USER $APP_UID
 ENTRYPOINT ["dotnet", "Assecor.Api.Person.dll"]
