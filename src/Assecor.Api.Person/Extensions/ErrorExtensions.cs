@@ -32,12 +32,7 @@ public static class ErrorExtensions
         };
     }
 
-    private static ProblemDetails CreateError(
-        Error error,
-        string message,
-        int statusCode,
-        List<KeyValuePair<string, object?>>? extensions = null
-    )
+    private static ProblemDetails CreateError(Error error, string message, int statusCode)
     {
         var problemDetails = new ProblemDetails
         {
@@ -50,7 +45,7 @@ public static class ErrorExtensions
         return problemDetails;
     }
 
-    public static Error InternalServerError()
+    private static Error InternalServerError()
     {
         return new Error("InternalServerErrorCode", "An unexpected error occurred");
     }

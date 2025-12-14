@@ -86,7 +86,7 @@ public class PersonsControllerTests
             actionResult.Should().BeOfType<ObjectResult>();
             var objectResult = actionResult as ObjectResult;
             objectResult!.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
-            objectResult!.Value.Should().BeOfType<ProblemDetails>();
+            objectResult.Value.Should().BeOfType<ProblemDetails>();
             var problemDetails = objectResult.Value as ProblemDetails;
             problemDetails!.Type.Should().Be(error.Code);
         }
@@ -107,7 +107,7 @@ public class PersonsControllerTests
             result.Should().BeOfType<ObjectResult>();
             var objectResult = result as ObjectResult;
             objectResult!.StatusCode.Should().Be(StatusCodes.Status500InternalServerError);
-            objectResult!.Value.Should().BeOfType<ProblemDetails>();
+            objectResult.Value.Should().BeOfType<ProblemDetails>();
             var problemDetails = objectResult.Value as ProblemDetails;
             problemDetails!.Type.Should().Be(error.Code);
         }

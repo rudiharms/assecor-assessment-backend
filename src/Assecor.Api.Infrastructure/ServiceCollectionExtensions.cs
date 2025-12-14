@@ -12,7 +12,7 @@ namespace Assecor.Api.Infrastructure;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<CsvOptions>(configuration.GetSection(CsvOptions.SectionName));
         services.Configure<SqlOptions>(configuration.GetSection(SqlOptions.SectionName));
@@ -40,7 +40,5 @@ public static class ServiceCollectionExtensions
         }
 
         services.AddSingleton<IFileSystem, FileSystem>();
-
-        return services;
     }
 }

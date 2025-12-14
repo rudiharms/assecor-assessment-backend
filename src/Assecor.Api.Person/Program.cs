@@ -64,5 +64,6 @@ finally
     Log.CloseAndFlush();
 }
 
+// Required by Integration tests
 public partial class Program
 { }

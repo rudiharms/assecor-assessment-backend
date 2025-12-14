@@ -300,3 +300,5 @@ tests/Assecor.Api.Infrastructure.Tests/coverage.cobertura.xml
 tests/Assecor.Api.Person.Tests/coverage.cobertura.xml
 tests/Assecor.Api.Person.Tests/coverage.json
 tests/Assecor.Api.Domain.Tests/coverage.json
+tests/Assecor.Api.Integration.Tests/coverage.cobertura.xml
+tests/Assecor.Api.Integration.Tests/coverage.json
